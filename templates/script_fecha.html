@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador Regresivo</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        .titulo {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #333;
+            font-weight: bold;
+        }
+        #contador {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .unidad {
+            display: inline-block;
+            margin: 0 15px;
+            text-align: center;
+        }
+        .valor {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+        }
+        .etiqueta {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="titulo" id="tituloContador">Riaza</div>
+    
+    <div id="contador">
+        <div class="unidad">
+            <span id="dias" class="valor">0</span>
+            <span class="etiqueta">Días</span>
+        </div>
+        <div class="unidad">
+            <span id="horas" class="valor">0</span>
+            <span class="etiqueta">Horas</span>
+        </div>
+        <div class="unidad">
+            <span id="minutos" class="valor">0</span>
+            <span class="etiqueta">Minutos</span>
+        </div>
+        <div class="unidad">
+            <span id="segundos" class="valor">0</span>
+            <span class="etiqueta">Segundos</span>
+        </div>
+    </div>
+
+    <script>
+        // Función para cambiar el título
+        function cambiarTitulo(nuevoTitulo) {
+            document.getElementById('tituloContador').textContent = nuevoTitulo;
+        }
+
+        function actualizarContador() {
+            const fechaObjetivo = new Date("2025-01-24T23:59:59").getTime();
+            const ahora = new Date().getTime();
+            const diferencia = fechaObjetivo - ahora;
+
+            const segundos = Math.floor((diferencia / 1000) % 60);
+            const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+
+            document.getElementById("dias").textContent = dias.toString().padStart(2, '0');
+            document.getElementById("horas").textContent = horas.toString().padStart(2, '0');
+            document.getElementById("minutos").textContent = minutos.toString().padStart(2, '0');
+            document.getElementById("segundos").textContent = segundos.toString().padStart(2, '0');
+
+            if (diferencia < 0) {
+                clearInterval(intervalo);
+                document.getElementById("contador").innerHTML = "¡La fecha objetivo ha llegado!";
+            }
+        }
+
+        const intervalo = setInterval(actualizarContador, 1000);
+        actualizarContador();
+
+        // Ejemplo de cómo cambiar el título (puedes llamar a esta función cuando quieras)
+        // cambiarTitulo("Nuevo Título del Contador");
+    </script>
+</body>
+</html>
